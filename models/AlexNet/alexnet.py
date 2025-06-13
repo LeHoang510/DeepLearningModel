@@ -1,22 +1,24 @@
 """
 AlexNet archtecture implementation.
+Summary:
+    - 5 convolutional layers (11, 5, 3) followed by 3 fully connected layers.
+    - Uses ReLU activations, Batch Normalization, and Dropout.
 Input size: 3x224x224
-Subsampling using Max Pooling and ReLU activation.
 Layers:
-- layer1: Conv2D(3, 96, kernel_size=11, stride=4, padding=0), batch normalization, ReLU, max pooling
-- layer2: Conv2D(96, 256, kernel_size=5, stride=1, padding=2), batch normalization, ReLU, max pooling
-- layer3: Conv2D(256, 384, kernel_size=3, stride=1, padding=1), batch normalization, ReLU
-- layer4: Conv2D(384, 384, kernel_size=3, stride=1, padding=1), batch normalization, ReLU
-- layer5: Conv2D(384, 256, kernel_size=3, stride=1, padding=1), batch normalization, ReLU, max pooling
-- layer6: Flatten -> Linear(256*6*6, 4096), ReLU, dropout
-- layer7: Linear(4096, 4096), ReLU, dropout
-- layer8: Linear(4096, num_classes)
-
+    - features:
+        - Conv1: 96 filters, 11x11 kernel, stride 4, padding 0 + ReLU + BN + MaxPooling
+        - Conv2: 256 filters, 5x5 kernel, stride 1, padding 2 + ReLU + BN + MaxPooling
+        - Conv3: 384 filters, 3x3 kernel, stride 1, padding 1 + ReLU
+        - Conv4: 384 filters, 3x3 kernel, stride 1, padding 1 + ReLU
+        - Conv5: 256 filters, 3x3 kernel, stride 1, padding 1 + ReLU + BN + MaxPooling
+    - classifier:
+        - FC1: 256*6*6 -> 4096 + ReLU + Dropout
+        - FC2: 4096 -> 4096 + ReLU + Dropout
+        - FC3: 4096 -> num_classes 
 """
 
 import torch
 import torch.nn as nn
-
 
 class AlexNet(nn.Module):
     def __init__(self, num_classes=1000):
