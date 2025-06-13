@@ -33,35 +33,35 @@ class AlexNet(nn.Module):
         return x
 
     def _make_features(self):
-        layer1 = nn.Sequential(
+        conv1 = nn.Sequential(
             nn.Conv2d(3, 96, kernel_size=11, stride=4, padding=0),
             nn.BatchNorm2d(96),
             nn.ReLU(inplace=True),
             nn.MaxPool2d(kernel_size=3, stride=2)
         )
-        layer2 = nn.Sequential(
+        conv2 = nn.Sequential(
             nn.Conv2d(96, 256, kernel_size=5, stride=1, padding=2),
             nn.BatchNorm2d(256),
             nn.ReLU(inplace=True),
             nn.MaxPool2d(kernel_size=3, stride=2)
         )
-        layer3 = nn.Sequential(
+        conv3 = nn.Sequential(
             nn.Conv2d(256, 384, kernel_size=3, stride=1, padding=1),
             nn.BatchNorm2d(384),
             nn.ReLU(inplace=True)
         )
-        layer4 = nn.Sequential(
+        conv4 = nn.Sequential(
             nn.Conv2d(384, 384, kernel_size=3, stride=1, padding=1),
             nn.BatchNorm2d(384),
             nn.ReLU(inplace=True)
         )
-        layer5 = nn.Sequential(
+        conv5 = nn.Sequential(
             nn.Conv2d(384, 256, kernel_size=3, stride=1, padding=1),
             nn.BatchNorm2d(256),
             nn.ReLU(inplace=True),
             nn.MaxPool2d(kernel_size=3, stride=1)
         )
-        return nn.Sequential(layer1, layer2, layer3, layer4, layer5)
+        return nn.Sequential(conv1, conv2, conv3, conv4, conv5)
 
     def _make_classifier(self, num_classes):
         fc1 = nn.Sequential(
@@ -82,3 +82,50 @@ class AlexNet(nn.Module):
 
 # alexnet = AlexNet(num_classes=1000)
 # print(alexnet)
+# AlexNet(
+#   (features): Sequential(
+#     (0): Sequential(
+#       (0): Conv2d(3, 96, kernel_size=(11, 11), stride=(4, 4))
+#       (1): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+#       (2): ReLU(inplace=True)
+#       (3): MaxPool2d(kernel_size=3, stride=2, padding=0, dilation=1, ceil_mode=False)
+#     )
+#     (1): Sequential(
+#       (0): Conv2d(96, 256, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2))
+#       (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+#       (2): ReLU(inplace=True)
+#       (3): MaxPool2d(kernel_size=3, stride=2, padding=0, dilation=1, ceil_mode=False)
+#     )
+#     (2): Sequential(
+#       (0): Conv2d(256, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+#       (1): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+#       (2): ReLU(inplace=True)
+#     )
+#     (3): Sequential(
+#       (0): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+#       (1): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+#       (2): ReLU(inplace=True)
+#     )
+#     (4): Sequential(
+#       (0): Conv2d(384, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+#       (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+#       (2): ReLU(inplace=True)
+#       (3): MaxPool2d(kernel_size=3, stride=1, padding=0, dilation=1, ceil_mode=False)
+#     )
+#   )
+#   (classifier): Sequential(
+#     (0): Sequential(
+#       (0): Dropout(p=0.5, inplace=False)
+#       (1): Linear(in_features=9216, out_features=4096, bias=True)
+#       (2): ReLU(inplace=True)
+#     )
+#     (1): Sequential(
+#       (0): Dropout(p=0.5, inplace=False)
+#       (1): Linear(in_features=4096, out_features=4096, bias=True)
+#       (2): ReLU(inplace=True)
+#     )
+#     (2): Sequential(
+#       (0): Linear(in_features=4096, out_features=1000, bias=True)
+#     )
+#   )
+# )
