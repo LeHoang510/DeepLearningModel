@@ -1,19 +1,19 @@
 """
-VGG16 architecture implementation using PyTorch.
+VGG16 model implementation using PyTorch.
 Summary:
     - 13 convolutional layers with 3x3 kernels, followed by 3 fully connected layers.
     - Uses ReLU activations and Dropout.
 Input size: 3x224x224
 Layers:
     - features:
-        - Conv Block 1: 2 x (64 filters, 3x3 kernel, stride 1, padding 1 + ReLU) + MaxPooling
-        - Conv Block 2: 2 x (128 filters, 3x3 kernel, stride 1, padding 1 + ReLU) + MaxPooling
-        - Conv Block 3: 3 x (256 filters, 3x3 kernel, stride 1, padding 1 + ReLU) + MaxPooling
-        - Conv Block 4: 3 x (512 filters, 3x3 kernel, stride 1, padding 1 + ReLU) + MaxPooling
-        - Conv Block 5: 3 x (512 filters, 3x3 kernel, stride 1, padding 1 + ReLU) + MaxPooling
+        - Conv Block 1: 2 x (64 filters, 3x3 kernel, stride 1, padding 1 + ReLU) + MaxPool
+        - Conv Block 2: 2 x (128 filters, 3x3 kernel, stride 1, padding 1 + ReLU) + MaxPool
+        - Conv Block 3: 3 x (256 filters, 3x3 kernel, stride 1, padding 1 + ReLU) + MaxPool
+        - Conv Block 4: 3 x (512 filters, 3x3 kernel, stride 1, padding 1 + ReLU) + MaxPool
+        - Conv Block 5: 3 x (512 filters, 3x3 kernel, stride 1, padding 1 + ReLU) + MaxPool
     - classifier:
-        - FC1: 512*7*7 -> 4096 + ReLU + Dropout
-        - FC2: 4096 -> 4096 + ReLU + Dropout
+        - FC1: Dropout + 512*7*7 -> 4096 + ReLU
+        - FC2: Dropout + 4096 -> 4096 + ReLU
         - FC3: 4096 -> num_classes
 """
 

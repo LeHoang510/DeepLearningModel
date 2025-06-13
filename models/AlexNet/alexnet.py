@@ -1,20 +1,20 @@
 """
-AlexNet architecture implementation using PyTorch.
+AlexNet model implementation using PyTorch.
 Summary:
     - 5 convolutional layers (11, 5, 3) followed by 3 fully connected layers.
     - Uses ReLU activations, Batch Normalization, and Dropout.
 Input size: 3x224x224
 Layers:
     - features:
-        - Conv1: 96 filters, 11x11 kernel, stride 4, padding 0 + ReLU + BN + MaxPooling
-        - Conv2: 256 filters, 5x5 kernel, stride 1, padding 2 + ReLU + BN + MaxPooling
+        - Conv1: 96 filters, 11x11 kernel, stride 4, padding 0 + ReLU + BN + MaxPool
+        - Conv2: 256 filters, 5x5 kernel, stride 1, padding 2 + ReLU + BN + MaxPool
         - Conv3: 384 filters, 3x3 kernel, stride 1, padding 1 + ReLU
         - Conv4: 384 filters, 3x3 kernel, stride 1, padding 1 + ReLU
-        - Conv5: 256 filters, 3x3 kernel, stride 1, padding 1 + ReLU + BN + MaxPooling
+        - Conv5: 256 filters, 3x3 kernel, stride 1, padding 1 + ReLU + BN + MaxPool
     - classifier:
-        - FC1: 256*6*6 -> 4096 + ReLU + Dropout
-        - FC2: 4096 -> 4096 + ReLU + Dropout
-        - FC3: 4096 -> num_classes 
+        - FC1: Dropout + 256*6*6 -> 4096 + ReLU
+        - FC2: Dropout + 4096 -> 4096 + ReLU
+        - FC3: 4096 -> num_classes
 """
 
 import torch
