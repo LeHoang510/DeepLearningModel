@@ -1,5 +1,5 @@
 """
-AlexNet archtecture implementation.
+AlexNet architecture implementation using PyTorch.
 Summary:
     - 5 convolutional layers (11, 5, 3) followed by 3 fully connected layers.
     - Uses ReLU activations, Batch Normalization, and Dropout.
@@ -28,7 +28,7 @@ class AlexNet(nn.Module):
 
     def forward(self, x):
         x = self.features(x)
-        x = x.view(x.size(0), -1)
+        x = torch.flatten(x, 1)  # Flatten the tensor while keeping the batch dimension
         x = self.classifier(x)
         return x
 
@@ -80,5 +80,5 @@ class AlexNet(nn.Module):
         return nn.Sequential(fc1, fc2, fc3)
 
 
-# model = AlexNet(num_classes=1000)
-# print(model)
+# alexnet = AlexNet(num_classes=1000)
+# print(alexnet)
