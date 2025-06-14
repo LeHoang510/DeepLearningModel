@@ -16,10 +16,10 @@ class VGG(nn.Module):
         self._init_weights()
 
     def forward(self, x):
-        x = self.features(x)
-        x = torch.flatten(x, 1)
-        x = self.classifier(x)
-        return x
+        out = self.features(x)
+        out = torch.flatten(out, 1)
+        out = self.classifier(out)
+        return out
 
     def _make_features(self, config):
         layers = []

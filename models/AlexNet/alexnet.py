@@ -27,10 +27,10 @@ class AlexNet(nn.Module):
         self.classifier = self._make_classifier(num_classes)
 
     def forward(self, x):
-        x = self.features(x)
-        x = torch.flatten(x, 1)  # Flatten the tensor while keeping the batch dimension
-        x = self.classifier(x)
-        return x
+        out = self.features(x)
+        out = torch.flatten(out, 1)  # Flatten the tensor while keeping the batch dimension
+        out = self.classifier(out)
+        return out
 
     def _make_features(self):
         conv1 = nn.Sequential(
