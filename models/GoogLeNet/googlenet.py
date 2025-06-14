@@ -48,33 +48,33 @@ class GoogLeNet(nn.Module):
         self.fc = nn.Linear(1024, num_classes)
 
     def forward(self, x):
-        x = self.conv1(x)
-        x = self.maxpool1(x)
-        x = self.conv2(x)
-        x = self.conv3(x)
-        x = self.maxpool2(x)
+        out = self.conv1(x)
+        out = self.maxpool1(out)
+        out = self.conv2(out)
+        out = self.conv3(out)
+        out = self.maxpool2(out)
 
-        x = self.inception1(x)
-        x = self.inception2(x)
-        x = self.maxpool3(x)
+        out = self.inception1(out)
+        out = self.inception2(out)
+        out = self.maxpool3(out)
 
-        x = self.inception3(x)
-        aux1 = self.auxiliary1(x)
-        x = self.inception4(x)
-        x = self.inception5(x)
-        x = self.inception6(x)
+        out = self.inception3(out)
+        aux1 = self.auxiliary1(out)
+        out = self.inception4(out)
+        out = self.inception5(out)
+        out = self.inception6(out)
 
-        aux2 = self.auxiliary2(x)
-        x = self.inception7(x)
-        x = self.maxpool4(x)
-        x = self.inception8(x)
-        x = self.inception9(x)
-        x = self.avgpool(x)
-        x = torch.flatten(x, 1)
-        x = self.dropout(x)
-        x = self.fc(x)
+        aux2 = self.auxiliary2(out)
+        out = self.inception7(out)
+        out = self.maxpool4(out)
+        out = self.inception8(out)
+        out = self.inception9(out)
+        out = self.avgpool(out)
+        out = torch.flatten(out, 1)
+        out = self.dropout(out)
+        out = self.fc(out)
 
-        return x, aux2, aux1
+        return out, aux2, aux1
 
 class InceptionBlock(nn.Module):
     def __init__(

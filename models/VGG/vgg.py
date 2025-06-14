@@ -8,6 +8,14 @@ CONFIGS = {
     "vgg19": [64, 64, 'M', 128, 128, 'M', 256, 256, 256, 256, 'M', 512, 512, 512, 512, 'M', 512, 512, 512, 512, 'M']
 }
 
+class VGGFactory:
+    @staticmethod
+    def create_vgg(model_name, num_classes=1000):
+        if model_name not in CONFIGS:
+            raise ValueError(f"Model {model_name} is not supported.")
+        return VGG(CONFIGS[model_name], num_classes)
+
+
 class VGG(nn.Module):
     def __init__(self, config, num_classes=1000):
         super(VGG, self).__init__()
@@ -16,10 +24,10 @@ class VGG(nn.Module):
         self._init_weights()
 
     def forward(self, x):
-        x = self.features(x)
-        x = torch.flatten(x, 1)
-        x = self.classifier(x)
-        return x
+        out = self.features(x)
+        out = torch.flatten(out, 1)
+        out = self.classifier(out)
+        return out
 
     def _make_features(self, config):
         layers = []
@@ -60,13 +68,6 @@ class VGG(nn.Module):
             elif isinstance(m, nn.Linear):
                 nn.init.normal_(m.weight, 0, 0.01)
                 nn.init.constant_(m.bias, 0)
-
-class VGGFactory:
-    @staticmethod
-    def create_vgg(model_name, num_classes=1000):
-        if model_name not in CONFIGS:
-            raise ValueError(f"Model {model_name} is not supported.")
-        return VGG(CONFIGS[model_name], num_classes)
 
 # vgg16 = VGGFactory.create_vgg("vgg16", num_classes=1000)
 # print(vgg16)
