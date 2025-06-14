@@ -47,6 +47,8 @@ class GoogLeNet(nn.Module):
         self.dropout = nn.Dropout(0.2)
         self.fc = nn.Linear(1024, num_classes)
 
+        self._init_weights()
+
     def forward(self, x):
         out = self.conv1(x)
         out = self.maxpool1(out)
@@ -75,6 +77,20 @@ class GoogLeNet(nn.Module):
         out = self.fc(out)
 
         return out, aux2, aux1
+
+    def _init_weights(self):
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d):
+                nn.init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
+                if m.bias is not None:
+                    nn.init.constant_(m.bias, 0)
+            elif isinstance(m, nn.BatchNorm2d):
+                nn.init.constant_(m.weight, 1)
+                nn.init.constant_(m.bias, 0)
+            elif isinstance(m, nn.Linear):
+                nn.init.normal_(m.weight, 0, 0.01)
+                nn.init.constant_(m.bias, 0)
+
 
 class InceptionBlock(nn.Module):
     def __init__(
@@ -132,7 +148,7 @@ class BasicBlock(nn.Module):
     def __init__(self, in_channels, out_channels, **kwargs):
         super(BasicBlock, self).__init__()
         self.block = nn.Sequential(
-            nn.Conv2d(in_channels, out_channels, **kwargs),
+            nn.Conv2d(in_channels, out_channels, **kwargs, bias=False),
             nn.BatchNorm2d(out_channels),
             nn.ReLU(inplace=True)
         )

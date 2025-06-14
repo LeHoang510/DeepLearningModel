@@ -30,13 +30,13 @@ class LeNet5(nn.Module):
 
     def _make_features(self):
         conv1 = nn.Sequential(
-            nn.Conv2d(1, 6, kernel_size=5, stride=1, padding=0),
+            nn.Conv2d(1, 6, kernel_size=5, stride=1, padding=0, bias=False),
             nn.BatchNorm2d(6),
             nn.ReLU(inplace=True),
             nn.MaxPool2d(kernel_size=2, stride=2)
         )
         conv2 = nn.Sequential(
-            nn.Conv2d(6, 16, kernel_size=5, stride=1, padding=0),
+            nn.Conv2d(6, 16, kernel_size=5, stride=1, padding=0, bias=False),
             nn.BatchNorm2d(16),
             nn.ReLU(inplace=True),
             nn.MaxPool2d(kernel_size=2, stride=2)

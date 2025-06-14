@@ -36,7 +36,7 @@ class VGG(nn.Module):
             if v == 'M':
                 layers.append(nn.MaxPool2d(kernel_size=2, stride=2))
             else:
-                layers.append(nn.Conv2d(in_channels, v, kernel_size=3, padding=1))
+                layers.append(nn.Conv2d(in_channels, v, kernel_size=3, padding=1, bias=False))
                 layers.append(nn.BatchNorm2d(v))
                 layers.append(nn.ReLU(inplace=True))
                 in_channels = v
@@ -68,6 +68,7 @@ class VGG(nn.Module):
             elif isinstance(m, nn.Linear):
                 nn.init.normal_(m.weight, 0, 0.01)
                 nn.init.constant_(m.bias, 0)
+
 
 # vgg16 = VGGFactory.create_vgg("vgg16", num_classes=1000)
 # print(vgg16)

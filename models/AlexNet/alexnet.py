@@ -25,6 +25,7 @@ class AlexNet(nn.Module):
         super(AlexNet, self).__init__()
         self.features = self._make_features()
         self.classifier = self._make_classifier(num_classes)
+        self._init_weights()
 
     def forward(self, x):
         out = self.features(x)
@@ -34,29 +35,29 @@ class AlexNet(nn.Module):
 
     def _make_features(self):
         conv1 = nn.Sequential(
-            nn.Conv2d(3, 96, kernel_size=11, stride=4, padding=0),
+            nn.Conv2d(3, 96, kernel_size=11, stride=4, padding=0, bias=False),
             nn.BatchNorm2d(96),
             nn.ReLU(inplace=True),
             nn.MaxPool2d(kernel_size=3, stride=2)
         )
         conv2 = nn.Sequential(
-            nn.Conv2d(96, 256, kernel_size=5, stride=1, padding=2),
+            nn.Conv2d(96, 256, kernel_size=5, stride=1, padding=2, bias=False),
             nn.BatchNorm2d(256),
             nn.ReLU(inplace=True),
             nn.MaxPool2d(kernel_size=3, stride=2)
         )
         conv3 = nn.Sequential(
-            nn.Conv2d(256, 384, kernel_size=3, stride=1, padding=1),
+            nn.Conv2d(256, 384, kernel_size=3, stride=1, padding=1, bias=False),
             nn.BatchNorm2d(384),
             nn.ReLU(inplace=True)
         )
         conv4 = nn.Sequential(
-            nn.Conv2d(384, 384, kernel_size=3, stride=1, padding=1),
+            nn.Conv2d(384, 384, kernel_size=3, stride=1, padding=1, bias=False),
             nn.BatchNorm2d(384),
             nn.ReLU(inplace=True)
         )
         conv5 = nn.Sequential(
-            nn.Conv2d(384, 256, kernel_size=3, stride=1, padding=1),
+            nn.Conv2d(384, 256, kernel_size=3, stride=1, padding=1, bias=False),
             nn.BatchNorm2d(256),
             nn.ReLU(inplace=True),
             nn.MaxPool2d(kernel_size=3, stride=1)
@@ -79,6 +80,18 @@ class AlexNet(nn.Module):
         )
         return nn.Sequential(fc1, fc2, fc3)
 
+    def _init_weights(self):
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d):
+                nn.init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
+                if m.bias is not None:
+                    nn.init.constant_(m.bias, 0)
+            elif isinstance(m, nn.BatchNorm2d):
+                nn.init.constant_(m.weight, 1)
+                nn.init.constant_(m.bias, 0)
+            elif isinstance(m, nn.Linear):
+                nn.init.normal_(m.weight, 0, 0.01)
+                nn.init.constant_(m.bias, 0)
 
 # alexnet = AlexNet(num_classes=1000)
 # print(alexnet)
