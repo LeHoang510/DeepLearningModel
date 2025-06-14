@@ -140,6 +140,5 @@ class BasicBlock(nn.Module):
     def forward(self, x):
         return self.block(x)
 
-
 # googlenet = GoogLeNet(num_classes=1000)
 # print(googlenet)
