@@ -56,3 +56,25 @@ class BottleneckBlock(nn.Module):
         out = F.relu(out)
         return out
 
+class ResNet(nn.Module):
+    def __init__(self, num_classes):
+        pass
+
+    def forward():
+        pass
+
+    def _make_layers():
+        pass
+
+CONFIGS = {
+    "resnet18": (BasicBlock, [2, 2, 2, 2]),
+    "resnet34": (BasicBlock, [3, 4, 6, 3]),
+}
+
+class VGGFactory:
+    @staticmethod
+    def create_resnet(model_name, num_classes):
+        if model_name not in CONFIGS:
+            raise ValueError(f"Model {model_name} is not supported.")
+        return ResNet(CONFIGS[model_name], num_classes)
+
