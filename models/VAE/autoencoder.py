@@ -27,8 +27,15 @@ class Autoencoder(nn.Module):
             nn.Linear(128, 28 * 28),
             nn.Sigmoid()
         )
+        self._init_weights()
 
     def forward(self, x):
         out = self.encoder(x)
         out = self.decoder(out)
         return out
+
+    def _init_weights(self):
+        for m in self.modules():
+            if isinstance(m, nn.Linear):
+                nn.init.xavier_uniform_(m.weight)
+                nn.init.constant_(m.bias, 0)

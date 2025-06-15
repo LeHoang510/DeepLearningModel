@@ -21,6 +21,7 @@ class VAE(nn.Module):
             nn.Linear(hidden_dim, input_dim),
             nn.Sigmoid()
         )
+        self._init_weights()
 
     def encode(self, x):
         out = self.encoder(x)
@@ -39,3 +40,9 @@ class VAE(nn.Module):
         z = self.reparameterize(mean, var)
         recon_x = self.decode(z)
         return recon_x, mean, var
+
+    def _init_weights(self):
+        for m in self.modules():
+            if isinstance(m, nn.Linear):
+                nn.init.xavier_uniform_(m.weight)
+                nn.init.constant_(m.bias, 0)
