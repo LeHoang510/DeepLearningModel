@@ -1,3 +1,17 @@
+"""
+ResNet implementation using PyTorch.
+Layer Summary:
+Features:
+- 1. Initial convolutional layer with 64 filters, 7x7 kernel, stride 2, padding 3
+- 2. Batch normalization and ReLU activation
+- 3. Max pooling layer with 3x3 kernel, stride 2, padding 1
+- 4. Four residual layers with varying number of blocks (BasicBlock or BottleneckBlock)
+Classifier:
+- 5. Adaptive average pooling to 1x1
+- 6. Fully connected layer to output classes
+- 7. Initialization of weights using Kaiming and Xavier methods
+"""
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
