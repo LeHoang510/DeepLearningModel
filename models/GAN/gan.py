@@ -44,7 +44,7 @@ class Discriminator(nn.Module):
                 nn.init.xavier_uniform_(m.weight)
                 nn.init.constant_(m.bias, 0)
 
-print(Discriminator([784, 512, 256, 128, 1]))
+# print(Discriminator([784, 512, 256, 128, 1]))
 
 # Generator(
 #   (layers): ModuleList(
