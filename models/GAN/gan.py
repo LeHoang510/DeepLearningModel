@@ -3,18 +3,26 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 class Generator(nn.Module):
-    def __init__(self, dim_config):
+    def __init__(self):
         super(Generator, self).__init__()
-        self.layers = nn.ModuleList()
-        for i in range(len(dim_config) - 1):
-            self.layers.append(nn.Linear(dim_config[i], dim_config[i + 1]))
-            self.layers.append(nn.LeakyReLU(0.2, inplace=True) if i < len(dim_config) - 2 else nn.Tanh())
+        self.layers = nn.Sequential(
+            nn.Linear(100, 256),
+            nn.ReLU(inplace=True),
+
+            nn.Linear(256, 512),
+            nn.ReLU(inplace=True),
+
+            nn.Linear(512, 1024),
+            nn.ReLU(inplace=True),
+
+            nn.Linear(1024, 784),
+            nn.Tanh()
+        )
+
         self._init_weights()
 
     def forward(self, x):
-        out = x
-        for layer in self.layers:
-            out = layer(out)
+        out = self.layers(x)
         return out
 
     def _init_weights(self):
@@ -24,18 +32,25 @@ class Generator(nn.Module):
                 nn.init.constant_(m.bias, 0)
 
 class Discriminator(nn.Module):
-    def __init__(self, dim_config):
+    def __init__(self):
         super(Discriminator, self).__init__()
-        self.layers = nn.ModuleList()
-        for i in range(len(dim_config) - 1):
-            self.layers.append(nn.Linear(dim_config[i], dim_config[i + 1]))
-            self.layers.append(nn.LeakyReLU(0.2, inplace=True) if i < len(dim_config) - 2 else nn.Sigmoid())
+        self.layers = nn.Sequential(
+            nn.Linear(784, 512),
+            nn.LeakyReLU(0.2, inplace=True),
+
+            nn.Linear(512, 256),
+            nn.LeakyReLU(0.2, inplace=True),
+
+            nn.Linear(256, 128),
+            nn.LeakyReLU(0.2, inplace=True),
+
+            nn.Linear(128, 1),
+            nn.Sigmoid()
+        )
         self._init_weights()
 
     def forward(self, x):
-        out = x
-        for layer in self.layers:
-            out = layer(out)
+        out = self.layers(x)
         return out
 
     def _init_weights(self):
@@ -49,11 +64,11 @@ class Discriminator(nn.Module):
 # Generator(
 #   (layers): ModuleList(
 #     (0): Linear(in_features=100, out_features=256, bias=True)
-#     (1): LeakyReLU(negative_slope=0.2, inplace=True)
+#     (1): ReLU(inplace=True)
 #     (2): Linear(in_features=256, out_features=512, bias=True)
-#     (3): LeakyReLU(negative_slope=0.2, inplace=True)
+#     (3): ReLU(inplace=True)
 #     (4): Linear(in_features=512, out_features=1024, bias=True)
-#     (5): LeakyReLU(negative_slope=0.2, inplace=True)
+#     (5): ReLU(inplace=True)
 #     (6): Linear(in_features=1024, out_features=784, bias=True)
 #     (7): Tanh()
 #   )
